@@ -304,7 +304,7 @@ public class AuthorizationService {
                             topicName.toString(), role, ex.getMessage());
                 }
             }
-            canConsumeAsync(topicName, role, null, null).whenComplete((consumeAuthorized, e) -> {
+            canConsumeAsync(topicName, role, authenticationData, null).whenComplete((consumeAuthorized, e) -> {
                 if (e == null) {
                     if (consumeAuthorized) {
                         finalResult.complete(consumeAuthorized);
@@ -329,6 +329,16 @@ public class AuthorizationService {
     public CompletableFuture<Boolean> allowFunctionOpsAsync(NamespaceName namespaceName, String role,
                                                        AuthenticationDataSource authenticationData) {
         return provider.allowFunctionOpsAsync(namespaceName, role, authenticationData);
+    }
+
+    public CompletableFuture<Boolean> allowSourceOpsAsync(NamespaceName namespaceName, String role,
+                                                          AuthenticationDataSource authenticationData) {
+        return provider.allowSourceOpsAsync(namespaceName, role, authenticationData);
+    }
+
+    public CompletableFuture<Boolean> allowSinkOpsAsync(NamespaceName namespaceName, String role,
+                                                        AuthenticationDataSource authenticationData) {
+        return provider.allowSinkOpsAsync(namespaceName, role, authenticationData);
     }
 
     /**
